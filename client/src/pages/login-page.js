@@ -15,19 +15,7 @@ function LoginPage({Login}) {
     e.preventDefault();
     // console.log('in handle submit ');
     console.log(user);
-<<<<<<< HEAD
     axios.post("http://localhost:8080/login", user)
-    .then((responce) => {
-      let save = responce.data.user.result[0];
-      console.log(save);
-      save = JSON.stringify(save);
-      localStorage.setItem('user',save)
-      console.log(responce.data);
-      navigate('/HomePage');
-    })
-    .catch((err) => console.log(err, "This is error"));
-=======
-    axios.post("https://sf.doaguru.com/login", user)
     .then((responce) => {
       let save = responce.data.user.result[0];
       save = JSON.stringify(save);
@@ -40,7 +28,6 @@ function LoginPage({Login}) {
       console.log(err, "This is error");
       alert("Wrong Credential");
     });
->>>>>>> host2
   }
   return (
     <Wrapper>
