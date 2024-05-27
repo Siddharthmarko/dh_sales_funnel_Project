@@ -46,11 +46,9 @@ const registerController = async (req, res, next) => {
 }
 
 const loginController = async (req, res, next) => {
-  console.log('in login Controller')
-  
     try {
         const { email, password } = req.body;
-        console.log(email, password);
+        // console.log(email, password);
         if (!email || !password) {
           return res.status(404).send({
             success: false,

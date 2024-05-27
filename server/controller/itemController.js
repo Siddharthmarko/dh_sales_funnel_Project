@@ -1,5 +1,4 @@
 const { db } = require("../config/db");
-let scheduledJob = null;
 
 const test = async (req, res) => {
   res.send({ data: "Test Sucess Full" });
@@ -8,7 +7,6 @@ const test = async (req, res) => {
 const addLead = async (req, res, next) => {
   try {
     const { u_Id, fullName, mobileNo, email, address, inquiryType } = req.body;
-    console.log(u_Id, fullName, mobileNo, email, address, inquiryType);
     const insertLead = `INSERT INTO leads (
             u_Id, fullName, mobileNo, email, address, inquiryType) VALUES (?, ?, ?, ?, ?, ? )`;
     const insertLeadParams = [
@@ -23,7 +21,7 @@ const addLead = async (req, res, next) => {
       if (err) {
         res.status(500).json({ error: "Internal server error" });
       } else {
-        console.log(result);
+        // console.log(result);
         return res.status(200).json({
           success: true,
           data: result,
@@ -34,6 +32,7 @@ const addLead = async (req, res, next) => {
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
+  next();
 };
 const updateLead = async (req, res, next) => {
   try {
@@ -57,8 +56,7 @@ const updateLead = async (req, res, next) => {
           return res.status(500).json({ err: "Internal server error" });
         }
 
-        // Return success response
-        console.log(updateResult);
+        // console.log(updateResult);
         return res.status(200).json({
           message: "Lead updated successfully",
           result: updateResult,
@@ -66,15 +64,15 @@ const updateLead = async (req, res, next) => {
       }
     );
   } catch (e) {
-    // Handle unexpected errors
     res.status(500).json({ error: e.message });
   }
+  next();
 };
 const updateFollowReport = async (req, res, next) => {
   try {
     const { report_id, followUpDate, followUpPhase, followUpReport, status } =
       req.body;
-    console.log(report_id, followUpDate, followUpPhase, followUpReport, status);
+    // console.log(report_id, followUpDate, followUpPhase, followUpReport, status);
     const updatefollowupQuery = `
         UPDATE followupreport 
         SET followUpDate = ?, 
@@ -88,12 +86,10 @@ const updateFollowReport = async (req, res, next) => {
       [followUpDate, followUpPhase, followUpReport, status, report_id],
       (updateErr, updateResult) => {
         if (updateErr) {
-          console.log(updateErr);
+          // console.log(updateErr);
           return res.status(500).json({ err: "Internal server error" });
         }
-
-        // Return success response
-        console.log(updateResult);
+        // console.log(updateResult);
         return res.status(200).json({
           message: "Lead updated successfully",
           result: updateResult,
@@ -101,9 +97,9 @@ const updateFollowReport = async (req, res, next) => {
       }
     );
   } catch (e) {
-    // Handle unexpected errors
     res.status(500).json({ error: e.message });
   }
+  next();
 };
 
 const createFollowUpReport = async (req, res, next) => {
@@ -137,12 +133,13 @@ const createFollowUpReport = async (req, res, next) => {
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
+  next();
 };
 
 const getLeadDetails = async (req, res, next) => {
   try {
     const u_Id = req.params.user_id;
-    console.log(u_Id);
+    // console.log(u_Id);
     const getLead = "SELECT * FROM leads WHERE u_Id = ?";
     db.query(getLead, [u_Id], (leadErr, leadResult) => {
       if (leadErr) {
@@ -204,27 +201,13 @@ const getLeadDetails = async (req, res, next) => {
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
+  next()
 };
 
 const updateMeeting = (req, res, next) => {
-  if (scheduledJob) {
-    scheduledJob.destroy();
-    console.log("194 : Cron job destroyed");
-    isJobScheduled = false;
-  } else {
-    console.log("197: No cron job to destroy");
-  }
-  const { u_Id, userName, emails, lead_Id, nextFollowDate, nextFollowPhase } =
+  const { lead_Id, nextFollowDate, nextFollowPhase } =
     req.body;
 
-  const foundScheduing = "SELECT * FROM leads WHERE lead_Id = ?";
-  // db.query(foundScheduing, [lead_Id], (err, res) => {
-  //     if(err) res.status(500).json({err: 'internal error'});
-  //     let data = res[0];
-  //     if(data.nextFollowDate){
-  //         getSchedule(lead_Id);
-  //     }
-  // })
   const updateLeadQuery = `
         UPDATE leads 
         SET
@@ -232,9 +215,6 @@ const updateMeeting = (req, res, next) => {
             nextFollowPhase = ?
         WHERE lead_Id = ?
     `;
-  // console.log(emails);
-  // console.log('yes in the update meeting');
-  // console.log(nextFollowDate)
   db.query(
     updateLeadQuery,
     [nextFollowDate, nextFollowPhase, lead_Id],
@@ -249,6 +229,7 @@ const updateMeeting = (req, res, next) => {
       });
     }
   );
+  next();
 };
 module.exports = {
   test,
