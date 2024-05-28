@@ -4,7 +4,7 @@ const test = async (req, res) => {
   res.send({ data: "Test Sucess Full" });
 };
 
-const addLead = async (req, res, next) => {
+const addLead = (req, res) => {
   try {
     const { u_Id, fullName, mobileNo, email, address, inquiryType } = req.body;
     const insertLead = `INSERT INTO leads (
@@ -32,9 +32,8 @@ const addLead = async (req, res, next) => {
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
-  next();
 };
-const updateLead = async (req, res, next) => {
+const updateLead = (req, res) => {
   try {
     const { lead_Id, fullName, mobileNo, email, address, inquiryType } =
       req.body;
@@ -66,9 +65,8 @@ const updateLead = async (req, res, next) => {
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
-  next();
 };
-const updateFollowReport = async (req, res, next) => {
+const updateFollowReport = (req, res) => {
   try {
     const { report_id, followUpDate, followUpPhase, followUpReport, status } =
       req.body;
@@ -99,10 +97,9 @@ const updateFollowReport = async (req, res, next) => {
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
-  next();
 };
 
-const createFollowUpReport = async (req, res, next) => {
+const createFollowUpReport =  (req, res) => {
   try {
     const {
       lead_Id,
@@ -132,11 +129,10 @@ const createFollowUpReport = async (req, res, next) => {
     );
   } catch (e) {
     res.status(500).json({ error: e.message });
-  }
-  next();
+  };
 };
 
-const getLeadDetails = async (req, res, next) => {
+const getLeadDetails = (req, res) => {
   try {
     const u_Id = req.params.user_id;
     // console.log(u_Id);
@@ -165,7 +161,7 @@ const getLeadDetails = async (req, res, next) => {
             minute: "2-digit",
             second: "2-digit",
           };
-
+          console.log(utcDateTime);
           const istDateTime = new Intl.DateTimeFormat("en-IN", options).format(
             utcDateTime
           );
@@ -176,14 +172,14 @@ const getLeadDetails = async (req, res, next) => {
           let date = convertUTCtoIST(obj.date);
           obj.date = date.toString().substring(0, 10);
           if (obj.nextFollowDate) {
-            obj.nextFollowDate = convertUTCtoIST(obj.nextFollowDate);
+            obj.nextFollowDate = obj.nextFollowDate;
           }
           return obj;
         });
 
         followUpResult.forEach((obj) => {
           if (obj.followUpDate) {
-            obj.followUpDate = convertUTCtoIST(obj.followUpDate);
+            obj.followUpDate = obj.followUpDate;
           }
           let date = obj.followUpDate;
           obj.followUpDate = date.toString().substring(0, 10);
@@ -192,6 +188,7 @@ const getLeadDetails = async (req, res, next) => {
 
         leadResult.reverse();
         followUpResult.reverse();
+
         return res.status(200).json({
           lead: leadResult,
           followUp: followUpResult,
@@ -201,23 +198,25 @@ const getLeadDetails = async (req, res, next) => {
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
-  next()
 };
 
-const updateMeeting = (req, res, next) => {
+const updateMeeting = (req, res) => {
   const { lead_Id, nextFollowDate, nextFollowPhase } =
     req.body;
+
+    const [datePart, timePart] = nextFollowDate.split('T');
+    let Str_nextFollowDate = `${datePart} ${timePart}:00`;
 
   const updateLeadQuery = `
         UPDATE leads 
         SET
             nextFollowDate = ?,
             nextFollowPhase = ?
-        WHERE lead_Id = ?
+        WHERE lead_Id = ? 
     `;
   db.query(
     updateLeadQuery,
-    [nextFollowDate, nextFollowPhase, lead_Id],
+    [Str_nextFollowDate, nextFollowPhase, lead_Id],
     (updateErr, updateResult) => {
       if (updateErr) {
         return res.status(500).json({ err: "Internal server error" });
@@ -229,7 +228,6 @@ const updateMeeting = (req, res, next) => {
       });
     }
   );
-  next();
 };
 module.exports = {
   test,

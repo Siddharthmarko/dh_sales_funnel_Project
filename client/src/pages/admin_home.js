@@ -33,8 +33,6 @@ function AdminHome() {
           </div>
         </div>
       </div>
-
-
     </Wrapper>
   );
 };

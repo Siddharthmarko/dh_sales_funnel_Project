@@ -1,5 +1,5 @@
 import Styled from 'styled-components';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 
@@ -73,12 +73,11 @@ function FollowUpPage() {
         setFollowUp([...onlyLeadfollow]);
         setuserData({ ...userData, fullName, inquiryType});
         console.log(fullName, userData);
+
         let use = nextFollowDate.substring(0, 10);
-        let [day, month, year] = use.split('/');
-        let formattedDate = `${year}-${month}-${day}`;
-        console.log(formattedDate); 
         console.log(use);
-        setLeadReport({...leadReport, followUpDate: formattedDate, followUpPhase: nextFollowPhase});
+        
+        setLeadReport({...leadReport, followUpDate: use, followUpPhase: nextFollowPhase});
         console.log(followUp, userData);
         return res.data;
       }).catch((err) => console.log(err, 'Error in followuppage'))
@@ -243,7 +242,6 @@ function FollowUpPage() {
                   </tr>
                 })
               }
-
             </tbody>
           </table>
         </div>
