@@ -78,13 +78,13 @@ const Commonjs = () => {
                             <div className="space-x-4">
                                 <Link 
                                     to={'/sales/login'}
-                                    className="bg-white text-blue-500 font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-blue-500 hover:text-white transition-all duration-300 transform hover:scale-105"
+                                    className="bg-white text-blue-500 font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-blue-500 hover:text-black transition-all duration-300 transform hover:scale-105"
                                 >
                                     Sales
                                 </Link>
                                 <Link 
                                     to={'/task/login'}
-                                    className="bg-white text-purple-500 font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-purple-500 hover:text-white transition-all duration-300 transform hover:scale-105"
+                                    className="bg-white text-purple-500 font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-purple-500 hover:text-black transition-all duration-300 transform hover:scale-105"
                                 >
                                     Task
                                 </Link>

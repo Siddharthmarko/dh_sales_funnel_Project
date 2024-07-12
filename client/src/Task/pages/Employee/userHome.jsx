@@ -448,7 +448,7 @@ function UserHome() {
           </div>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left rtl:text-right text-white dark:text-gray">
-              <thead className="text-xs text-black uppercase bg-white dark:bg-gray-700 dark:text-white-400">
+              <thead className="text-xs  uppercase bg-gray-700 dark:text-white-400">
                 <tr>
                   <th scope="col" className="px-3 py-2">S.no.</th>
                   <th scope="col" className="px-3 py-2">Project/Client Name</th>
@@ -462,7 +462,7 @@ function UserHome() {
               </thead>
               <tbody>
                 {taskData.map((task, index) => (
-                  <tr key={task.id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                  <tr key={task.id} className=" odd:bg-gray-900  even:bg-gray-800 border-b border-gray-700">
                     <td className="px-3 py-2">{index + 1}</td>
                     <td className="px-3 py-2">{task.ProjectOrClientName}</td>
                     <td className="px-3 py-2">{task.Category}</td>
@@ -471,8 +471,8 @@ function UserHome() {
                     <td className="px-3 py-2">{task.ConsumingTimeInMin}</td>
                     <td className="px-3 py-2">{task.TotalConsumingTime}</td>
                     <td className="px-3 py-2 flex-wrap">
-                      <Link to="#" onClick={() => { handleEditTask(task) }} className="font-medium text-blue-600 dark:text-blue-500 hover:underline px-1">Edit</Link>
-                      <Link to="#" onClick={() => handleDeleteTask(task.id)} className="font-medium text-red-600 dark:text-red-500 hover:underline px-1">Remove</Link>
+                      <Link to="#" onClick={() => { handleEditTask(task) }} className="font-medium text-blue-600 text-blue-500 hover:underline px-1">Edit</Link>
+                      <Link to="#" onClick={() => handleDeleteTask(task.id)} className="font-medium text-red-600 text-red-500 hover:underline px-1">Remove</Link>
                     </td>
                   </tr>
                 ))}
