@@ -26,6 +26,7 @@ import ProjectAssignmentForm from './Task/pages/Admin/assignProoject';
 import TaskReportDownload from './Task/pages/Admin/Report';
 import Blank from './Task/pages/blank';
 
+
 const Commonjs = () => {
     const navigate = useNavigate();
     const [render, setRender] = useState(false);
@@ -73,6 +74,7 @@ const Commonjs = () => {
                 <Routes>
                 <Route path="/" element={
                         <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600">
+                    
                         <div className="text-center">
                             <h1 className="text-4xl font-bold text-white mb-8">Choose Your Platform</h1>
                             <div className="space-x-4">

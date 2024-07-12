@@ -89,8 +89,8 @@ function LoginPage({setRender}) {
 
       <div className="modalButton  ">
         <div className="m-2 p-2 flex justify-center ">
-          <button onClick={() => setShowModal(true)} className="relative inline-flex items-center justify-center p-0.5  me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-red-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-black focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-            <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white dark:bg-white-900 rounded-md group-hover:bg-opacity-0">
+          <button onClick={() => setShowModal(true)} className="relative inline-flex items-center justify-center p-0.5  me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-red-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 text-black focus:ring-4 focus:outline-none focus:ring-green-200 focus:ring-green-800">
+            <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
               Admin Login
             </span>
           </button>
@@ -106,11 +106,12 @@ function LoginPage({setRender}) {
                 <input
                   id="email"
                   name="email"
+                  placeholder="User Name"
                   type={emailId}
                   autoComplete="email"
                   onChange={(e) => setEmailId(e.target.value)}
                   required
-                  className="block w-full rounded-md border-0 py-1.5 ps-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-2 py-1.5 ps-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -132,10 +133,11 @@ function LoginPage({setRender}) {
                   name="password"
                   value={password}
                   type="password"
+                  placeholder="Password"
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete="current-password"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 ps-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-2 py-1.5 ps-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -200,11 +202,13 @@ function LoginPage({setRender}) {
                               <div className="usernamee">
                                 <label htmlFor="username" className="block mb-2 text-sm font-medium text-black-900 dark:text-black">Your User Name</label>
                                 <input
+                                required
                                   id="username"
                                   name="username"
                                   type="text"
+                                  placeholder="Admin User Name"
                                   onChange={(e) => setEmailId(e.target.value)}
-                                  required
+                              
                                   className="block border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-2.5 light:bg-white-700 dark:border-gray-600 dark:placeholder-black-400 dark:text-black dark:focus:ring-black-500 dark:focus:border-blue-500" />
 
                               </div>
@@ -213,28 +217,30 @@ function LoginPage({setRender}) {
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-black-900 dark:text-black">Your Password</label>
                                 <input
                                   id="password"
+                                  required
+                                  placeholder="Password"
 
                                   type="password"
 
                                   onChange={(e) => setPassword(e.target.value)}
-                                  required
-                                  className="block border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-2.5 light:bg-white-700 dark:border-gray-600 dark:placeholder-black-400 dark:text-black dark:focus:ring-black-500 dark:focus:border-blue-500" />
+                                  
+                                  className="block border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-2.5 light:bg-white-700 border-gray-600 placeholder-black-400 text-black focus:ring-black-500 focus:border-blue-500" />
 
                               </div>
                               <div className="buttons flex justify-start sm:ms-8  ">
                                 {/* Add Task Button  */}
 
                                 <div className=" m-1 flex flex-col justify-end ">
-                                  <button onClick={handleAdminLogin} className="relative inline-flex items-center justify-center p-0.5  me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-black focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                                    <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white dark:bg-white-900 rounded-md group-hover:bg-opacity-0">
+                                  <button onClick={handleAdminLogin} className="relative inline-flex items-center justify-center p-0.5  me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-green-400 hover:to-blue-600 hover:from-green-400 hover:to-blue-600 hover:text-blue  focus:ring-4 focus:outline-none focus:ring-green-200 ">
+                                    <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white  rounded-md hover:bg-opacity-0">
                                       Sign In
                                     </span>
                                   </button>
                                 </div>
                                 {/* Task Clear Button */}
                                 <div className="m-1 flex flex-col justify-end">
-                                  <button type="reset" onClick={''} className="relative inline-flex items-center justify-center p-0.5 me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-red-400 to-red-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-black focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                                    <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white dark:bg-white-900 rounded-md group-hover:bg-opacity-0">
+                                  <button type="reset" onClick={''} className="relative inline-flex items-center justify-center p-0.5 me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-red-400 to-red-600 hover:from-green-400 hover:to-blue-600 hover:text-red text-black focus:ring-4 focus:outline-none focus:ring-green-200 focus:ring-green-800">
+                                    <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white  rounded-md hover:bg-opacity-0">
                                       Clear
                                     </span>
                                   </button>
