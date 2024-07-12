@@ -8,7 +8,7 @@ function EmployeePage() {
   const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        axios.get('https://sf.doaguru.com/api/users')
+        axios.get('http://localhost:8080/api/users')
             .then(response => {
                 setUsers(response.data);
             })

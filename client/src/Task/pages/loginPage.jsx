@@ -15,7 +15,7 @@ function LoginPage({setRender}) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    axios.post('https://sf.doaguru.com/api/login', { emailId, password })
+    axios.post('http://localhost:8080/api/login', { emailId, password })
 
       .then(response => {
         if (response.data && response.data.user) {
@@ -46,7 +46,7 @@ function LoginPage({setRender}) {
 
   const handleAdminLogin = (e) => {
     e.preventDefault()
-    axios.post('https://sf.doaguru.com/api/admin-login', { emailId, password })
+    axios.post('http://localhost:8080/api/admin-login', { emailId, password })
       .then(response => {
         if (response.data && response.data.user) {
           let save = response.data.user;

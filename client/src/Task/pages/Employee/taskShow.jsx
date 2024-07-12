@@ -29,7 +29,7 @@ function TaskView() {
 
 
   const fetchFullTasks = () => {
-    axios.get('https://sf.doaguru.com/api/fetch-full-data')
+    axios.get('http://localhost:8080/api/fetch-full-data')
       .then(response => {
         setTaskData(response.data);
         
@@ -54,7 +54,7 @@ function TaskView() {
 
   const updateTask = (e) => {
 
-    axios.post('https://sf.doaguru.com/api/update-task', formData)
+    axios.post('http://localhost:8080/api/update-task', formData)
       .then(response => {
         alert('Edit Ho gya');
         console.log(response.data);
@@ -69,10 +69,10 @@ function TaskView() {
 
 
   const handleDeleteTask = (id) => {
-    axios.post('https://sf.doaguru.com/api/delete-task', { id })
+    axios.post('http://localhost:8080/api/delete-task', { id })
       .then(response => {
         alert('Task deleted successfully');
-        axios.get('https://sf.doaguru.com/api/get-tasks')
+        axios.get('http://localhost:8080/api/get-tasks')
           .then(response => setFormData(response.data));
           fetchFullTasks()
       })
@@ -83,7 +83,7 @@ function TaskView() {
     let user = localStorage.getItem('user');
     user = JSON.parse(user);
     // console.log(user);
-    axios.get(`https://sf.doaguru.com/api/mytask/${user.id}`)
+    axios.get(`http://localhost:8080/api/mytask/${user.id}`)
     .then(res => {
       // console.log(res.data)
       setTaskData(res.data);

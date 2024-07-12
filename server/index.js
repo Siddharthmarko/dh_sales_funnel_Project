@@ -7,7 +7,7 @@ const app = express();
 const userRoutes = require('./router/userRoute.js');
 const authRoutes = require('./router/authRoute.js');
 // const cron = require('node-cron');
-// const {getAllAssociates} = require('./controller/sheduler/email.js');
+const {getAllAssociates} = require('./controller/sheduler/email.js');
 
 dotenv.config();
 app.use(bodyParser.json());

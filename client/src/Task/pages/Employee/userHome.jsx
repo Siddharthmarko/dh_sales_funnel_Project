@@ -57,7 +57,7 @@ function UserHome() {
     console.log(user);
     console.log(formData)
 
-    axios.post('https://sf.doaguru.com/api/add-data', { user_id: user.id, 
+    axios.post('http://localhost:8080/api/add-data', { user_id: user.id, 
       user_full_name: user.full_name, 
       ...formData 
     })
@@ -81,7 +81,7 @@ function UserHome() {
     user = JSON.parse(user);
 
 
-    axios.get('https://sf.doaguru.com/api/fetch-data', { params: { date: formattedDate } })
+    axios.get('http://localhost:8080/api/fetch-data', { params: { date: formattedDate } })
       .then(response => {
         let data = response.data;
         let currentUser = data.filter((iteam) => iteam.user_id == user.id)
@@ -106,7 +106,7 @@ function UserHome() {
     e.preventDefault()
 
     console.log("A gya ")
-    axios.post('https://sf.doaguru.com/api/update-task', formData)
+    axios.post('http://localhost:8080/api/update-task', formData)
       .then(response => {
         fetchTasks(date)
         alert('आपका टास्क संपादित हो गया है।');
@@ -121,10 +121,10 @@ function UserHome() {
   }
   // Remove Task handle 
   const handleDeleteTask = (id) => {
-    axios.post('https://sf.doaguru.com/api/delete-task', { id })
+    axios.post('http://localhost:8080/api/delete-task', { id })
       .then(response => {
         alert('Task ko remove kr diya mene');
-        axios.get('https://sf.doaguru.com/api/get-tasks')
+        axios.get('http://localhost:8080/api/get-tasks')
           .then(response => setFormData(response.data));
         fetchTasks(date)
       })
@@ -135,7 +135,7 @@ function UserHome() {
 
   // fetc and add select filed and category option 
   const fetchProjectListData = () => {
-    axios.get('https://sf.doaguru.com/api/projects')
+    axios.get('http://localhost:8080/api/projects')
       .then(response => {
         console.log(response.data)
         setAllProject(response.data);
@@ -146,7 +146,7 @@ function UserHome() {
   };
 
   const particularProject = () => {
-    axios.get(`https://sf.doaguru.com/api/getProject/${user.id}`)
+    axios.get(`http://localhost:8080/api/getProject/${user.id}`)
       .then(response => {
         console.log(response.data);
         const particular_project = response.data; // Assuming response.data is an array of objects with project IDs
@@ -206,7 +206,7 @@ function UserHome() {
       ProjectOrClientName: projectId
     });
     console.log(projectId)
-    axios.get(`https://sf.doaguru.com/api/category-list?projects_id=${projectId}`)
+    axios.get(`http://localhost:8080/api/category-list?projects_id=${projectId}`)
       .then(response => {
         setAllCategory(response.data);
         particularCategory();
@@ -232,7 +232,7 @@ function UserHome() {
 
 
 
-    axios.get(`https://sf.doaguru.com/api/sub-category-list?category_id=${selectedCategoryList.id}`)
+    axios.get(`http://localhost:8080/api/sub-category-list?category_id=${selectedCategoryList.id}`)
       .then(response => {
         setSubCategory(response.data);
         console.log(response.data)

@@ -11,7 +11,7 @@ const AddData = () => {
 
 
     const fetchCategories = () => {
-        axios.get('https://sf.doaguru.com/api/category-list')
+        axios.get('http://localhost:8080/api/category-list')
             .then(response => {
                 setCategories(response.data);
             })
@@ -21,7 +21,7 @@ const AddData = () => {
     };
 
     const handleAddProject = () => {
-        axios.post('https://sf.doaguru.com/api/projects', { name: projectName })
+        axios.post('http://localhost:8080/api/projects', { name: projectName })
             .then(response => {
                 console.log(response.data);
                 setProjectName('');
@@ -33,7 +33,7 @@ const AddData = () => {
     };
 
     const handleAddCategory = () => {
-        axios.post('https://sf.doaguru.com/api/categories', { name: categoryName })
+        axios.post('http://localhost:8080/api/categories', { name: categoryName })
             .then(response => {
                 console.log(response.data);
                 setCategoryName('');
@@ -46,7 +46,7 @@ const AddData = () => {
     };
 
     const handleAddSubCategory = () => {
-        axios.post('https://sf.doaguru.com/api/subcategories', { name: subCategoryName, category_id: selectedCategoryId })
+        axios.post('http://localhost:8080/api/subcategories', { name: subCategoryName, category_id: selectedCategoryId })
             .then(response => {
                 console.log(response.data);
                 setSubCategoryName('');
