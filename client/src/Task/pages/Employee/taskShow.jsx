@@ -38,7 +38,7 @@ function TaskView() {
   }, []);
 
   return (
-    <div className="TaskView">
+    <div className="TaskView min-h-screen">
 
       {/* Add Task Modal Add  */}
       <>

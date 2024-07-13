@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom"
 import CLogo from "../assets/images/CLogo.png"
 import React, { useState } from "react"
 import axios from "axios"
+import toast from "react-hot-toast";
 // import cogoToast from 'cogo-toast';
 
 // eslint-disable-next-line react/prop-types
@@ -22,7 +23,7 @@ function LoginPage({ setRender }) {
           let save = response.data.user;
           save = JSON.stringify(save);
           localStorage.setItem('user', save);
-          alert(response.data.message);
+          toast.success(response.data.message, {position:'top-right'});
           console.log(response.data.message)
           setRender();
           navigate('/task/UserHome')
@@ -53,7 +54,7 @@ function LoginPage({ setRender }) {
           save = JSON.stringify(save);
           localStorage.setItem('user', save);
 
-          alert(response.data.message);
+          toast.success(response.data.message, {position:'top-right'});
           setRender()
           navigate('/task/Admin-Home-page')
         } else {
@@ -89,8 +90,8 @@ function LoginPage({ setRender }) {
 
       <div className="modalButton  ">
         <div className="m-2 p-2 flex justify-center ">
-          <button onClick={() => setShowModal(true)} className="relative inline-flex items-center justify-center p-0.5  me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-red-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 text-black focus:ring-4 focus:outline-none focus:ring-green-200 focus:ring-green-800">
-            <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
+          <button onClick={() => setShowModal(true)} className="relative inline-flex items-center justify-center p-0.5  me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-red-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 text-black focus:ring-4 focus:outline-none focus:ring-green-200 focus:ring-green-800 ">
+            <span className="relative px-5 py-1 transition-all ease-in hover:text-gray-50  duration-75 bg-gray-100  rounded-md group-hover:bg-opacity-0">
               Admin Login
             </span>
           </button>
@@ -191,8 +192,8 @@ function LoginPage({ setRender }) {
                   <div className="relative p-6 flex-auto">
 
                     <form>
-                      <div className="container mx-auto px-5 bg-white-200 max-w-7xl rounded p-3">
-                        <div className="mx-5 p-5 border border-black rounded-lg">
+                      <div className="container mx-auto sm:px-5  bg-white-200 max-w-7xl rounded p-3 ">
+                        <div className="sm:mx-5 sm:my-5 sm:p-5 py-2 border border-black rounded-lg shadow-lg">
                           {/* <div>
                               <h2 className="text-2xl font-bold text-center py-3 my-2">Add Today Afford Tasks</h2>
                             </div> */}
@@ -231,16 +232,16 @@ function LoginPage({ setRender }) {
                                 {/* Add Task Button  */}
 
                                 <div className=" m-1 flex flex-col justify-end ">
-                                  <button onClick={handleAdminLogin} className="relative inline-flex items-center justify-center p-0.5  me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-green-400 hover:to-blue-600 hover:from-green-400 hover:to-blue-600 hover:text-blue  focus:ring-4 focus:outline-none focus:ring-green-200 ">
-                                    <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white  rounded-md hover:bg-opacity-0">
+                                  <button onClick={handleAdminLogin} className="relative inline-flex items-center justify-center p-0.5  me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-green-400 hover:to-blue-600 hover:from-green-400 hover:to-blue-600 hover:text-blue  focus:ring-4 focus:outline-none focus:ring-green-200 hover:text-gray-50 ">
+                                    <span className="relative px-4 py-1 transition-all ease-in duration-75 bg-gray-50  rounded-md hover:bg-opacity-0">
                                       Sign In
                                     </span>
                                   </button>
                                 </div>
                                 {/* Task Clear Button */}
                                 <div className="m-1 flex flex-col justify-end">
-                                  <button type="reset" onClick={''} className="relative inline-flex items-center justify-center p-0.5 me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-red-400 to-red-600 hover:from-green-400 hover:to-blue-600 hover:text-red text-black focus:ring-4 focus:outline-none focus:ring-green-200 focus:ring-green-800">
-                                    <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white  rounded-md hover:bg-opacity-0">
+                                  <button type="reset" onClick={''} className="relative inline-flex items-center justify-center p-0.5 me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-red-400 to-red-600 hover:from-red-400 hover:to-orange-300  text-black focus:ring-4 focus:outline-none focus:ring-green-200 focus:ring-green-800 hover:text-gray-50">
+                                    <span className="relative px-4 py-1 transition-all ease-in duration-75 bg-gray-50  rounded-md hover:bg-opacity-0">
                                       Clear
                                     </span>
                                   </button>

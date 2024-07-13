@@ -265,8 +265,8 @@ function UserHome() {
                 {/*content*/}
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                   {/*header*/}
-                  <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                    <h3 className="text-3xl font-semibold center">
+                  <div className="flex items-start justify-between p-2 sm:p-5 border-b border-solid border-blueGray-200 rounded-t">
+                    <h3 className=" text-2xl sm:text-3xl font-semibold center">
                       Add Today Effort Tasks
                     </h3>
                     <button
@@ -294,7 +294,7 @@ function UserHome() {
                               {/* Client and Project  Name Select  */}
                               <div className="project-client-name">
                                 <label htmlFor="ProjectClient" className="block mb-2 text-sm font-medium text-black-900 dark:text-black">Select Project / Client Name</label>
-                                <select id="ProjectClient" required name="ProjectOrClientName" value={formData.ProjectOrClientName} onChange={handleProjectsChange} className="block border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-2.5 light:bg-white-700 dark:border-gray-600 dark:placeholder-black-400 dark:text-black dark:focus:ring-black-500 dark:focus:border-blue-500">
+                                <select id="ProjectClient" required name="ProjectOrClientName" value={formData.ProjectOrClientName} onChange={handleProjectsChange} className="block border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-52 p-2.5 light:bg-white-700 dark:border-gray-600 dark:placeholder-black-400 dark:text-black dark:focus:ring-black-500 dark:focus:border-blue-500">
                                   <option value="">Choose a ProjectOrClientName</option>
                                   {projects.map(project => (
                                     <option key={project.id} value={project.name}>{project.name}</option>
@@ -304,7 +304,7 @@ function UserHome() {
                               {/* Project and Client work task category select  */}
                               <div className="project-task-category">
                                 <label htmlFor="Category" className="block mb-2 text-sm font-medium text-black-900 dark:text-black">Select Category</label>
-                                <select id="Category" required name="Category" value={formData.Category} onChange={handleCategoryChange} disabled={!selectedProjects} className="block border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-2.5 light:bg-white-700 dark:border-gray-600 dark:placeholder-black-400 dark:text-black dark:focus:ring-black-500 dark:focus:border-blue-500">
+                                <select id="Category" required name="Category" value={formData.Category} onChange={handleCategoryChange} disabled={!selectedProjects} className="block border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-52 p-2.5 light:bg-white-700 dark:border-gray-600 dark:placeholder-black-400 dark:text-black dark:focus:ring-black-500 dark:focus:border-blue-500">
                                   <option value="">Choose a Category</option>
                                   {categorys.map(category => (
                                     <option key={category.id} value={category.name}>{category.name}</option>
@@ -314,7 +314,7 @@ function UserHome() {
                               {/* After category select sub category under category section  */}
                               <div className="project-task-sub-category">
                                 <label htmlFor="SubCategory" className="block mb-2 text-sm font-medium text-black-900 dark:text-black">Select Sub-Category</label>
-                                <select id="SubCategory" required name="subCategory" value={formData.subCategory} onChange={handleChange} disabled={!selectedCategory} className="block border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-2.5 light:bg-white-700 dark:border-gray-600 dark:placeholder-black-400 dark:text-black dark:focus:ring-black-500 dark:focus:border-blue-500">
+                                <select id="SubCategory" required name="subCategory" value={formData.subCategory} onChange={handleChange} disabled={!selectedCategory} className="block border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-52 p-2.5 light:bg-white-700 dark:border-gray-600 dark:placeholder-black-400 dark:text-black dark:focus:ring-black-500 dark:focus:border-blue-500">
                                   <option value="">Choose a Sub-Category</option>
                                   {subCategorys.map(subCategory => (
                                     <option key={subCategory.id} value={subCategory.name}>{subCategory.name}</option>
@@ -348,7 +348,7 @@ function UserHome() {
                                   onChange={handleChange}
 
                                   id="ConsumingTimeInMin"
-                                  className="block w-60 rounded-md border border-gray-300 p-2 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 sm:me-64"
+                                  className="block w-52 rounded-md border border-gray-300 p-2 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 sm:me-64"
                                   placeholder="Time in Min."
                                 />
                               </div>
