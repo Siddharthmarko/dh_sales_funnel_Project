@@ -3,7 +3,10 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import DatePicker from "react-datepicker"
 import 'react-datepicker/dist/react-datepicker.css';
-// import cogoToast from 'cogo-toast';
+import toast from 'react-hot-toast';
+
+//alert toast import
+
 
 
 let defaultTaskData = {
@@ -18,17 +21,17 @@ function UserHome() {
   const [showModal, setShowModal] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [formData, setFormData] = useState({
-    ProjectOrClientName : "",
-    Category:"",
-    subCategory:"",
-    TaskDescription:"",
-    ConsumingTimeInMin:"",
+    ProjectOrClientName: "",
+    Category: "",
+    subCategory: "",
+    TaskDescription: "",
+    ConsumingTimeInMin: "",
   });
   const [date, setDate] = useState(new Date());
   const [allProject, setAllProject] = useState([]);
   const [allCategory, setAllCategory] = useState([]);
   const [userProject, setUserProject] = useState([]);
-  
+
   const [taskData, setTaskData] = useState([]);
 
   // Dropdown List select in task time use state 
@@ -57,13 +60,15 @@ function UserHome() {
     console.log(user);
     console.log(formData)
 
-    axios.post('http://localhost:8080/api/add-data', { user_id: user.id, 
-      user_full_name: user.full_name, 
-      ...formData 
+    axios.post('http://localhost:8080/api/add-data', {
+      user_id: user.id,
+      user_full_name: user.full_name,
+      ...formData
     })
 
       .then(response => {
-        alert('आपका टास्क सफलतापूर्वक जोड़ दिया गया है।');
+
+        toast.success('आपका टास्क सफलतापूर्वक जोड़ दिया गया है।');
         fetchTasks(date);  // Fetch updated tasks after adding new data
       })
       .catch(error => {
@@ -110,6 +115,7 @@ function UserHome() {
       .then(response => {
         fetchTasks(date)
         alert('आपका टास्क संपादित हो गया है।');
+
         console.log(response.data);
         setIsUpdate(false)
         setShowModal(false)
@@ -123,9 +129,8 @@ function UserHome() {
   const handleDeleteTask = (id) => {
     axios.post('http://localhost:8080/api/delete-task', { id })
       .then(response => {
-        alert('Task ko remove kr diya mene');
-        axios.get('http://localhost:8080/api/get-tasks')
-          .then(response => setFormData(response.data));
+        toast.success('Task Remove ', { position: 'top-right' });
+       
         fetchTasks(date)
       })
       .catch(error => console.error('There was an error!', error));
@@ -153,10 +158,6 @@ function UserHome() {
         setUserProject(particular_project);
         // console.log(allProject);
 
-        // setAllCat(particular_project);
-        
-        // Assuming allProject is your array of all project details
-  
         const matchedProjects = [];
         // const matchedCategory = [];
         // Loop through each project in particular_project
@@ -177,7 +178,7 @@ function UserHome() {
         console.error("There was an error fetching the projects!", error);
       });
   };
-  
+
 
   // dropdown list for add task 
 
@@ -194,7 +195,7 @@ function UserHome() {
       }
     });
     console.log(matchedCate);
-    setCategory(matchedCate);  
+    setCategory(matchedCate);
 
   };
 
@@ -219,16 +220,16 @@ function UserHome() {
         console.error("There was an error fetching the categories!", error);
       });
   };
-  
+
   const handleCategoryChange = (e) => {
     const categoryId = e.target.value;
     const selectedCategoryList = allCategory.find(category => category.name === categoryId);
     setSelectedCategory(categoryId);
     console.log(selectedCategoryList, "Ye check kro ki ye aya  ");
-    let obj = {...formData, Category: categoryId, CategoryName: selectedCategoryList?.name};
+    let obj = { ...formData, Category: categoryId, CategoryName: selectedCategoryList?.name };
     console.log("line 219", categoryId, selectedCategoryList.name)
     console.log(obj)
-    setFormData({...obj});
+    setFormData({ ...obj });
 
 
 
@@ -241,23 +242,19 @@ function UserHome() {
         console.error("There was an error fetching the sub-categories!", error);
       });
   };
-  
+
 
   useEffect(() => {
     fetchProjectListData()
     fetchTasks(date);
   }, [date]);
 
+
   return (
-    <div className="homePage">
+    <div className="homePage min-h-screen">
       {/* dfsdfd */}
       {/* Add Task Modal Add  */}
       <>
-        {/* <button onClick={() => setShowModal(true)} className="relative inline-flex items-center justify-center p-0.5  me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-black focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-            <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white dark:bg-white-900 rounded-md group-hover:bg-opacity-0">
-              Add Task
-            </span>
-          </button> */}
 
         {showModal ? (
           <>
@@ -286,9 +283,9 @@ function UserHome() {
                   {/*body*/}
                   <div className="relative p-6 flex-auto">
 
-                      <div className="container mx-auto px-4 bg-slate-200 max-w-7xl rounded p-3">
-                        <div className="m-2 p-2 border border-white rounded-lg">
-                    <form onSubmit={!isUpdate ? handleSubmit : updateTask}>
+                    <div className="container mx-auto px-4 bg-slate-200 max-w-7xl rounded p-3">
+                      <div className="m-2 p-2 border border-white rounded-lg">
+                        <form onSubmit={!isUpdate ? handleSubmit : updateTask}>
                           {/* <div>
                               <h2 className="text-2xl font-bold text-center py-3 my-2">Add Today Afford Tasks</h2>
                             </div> */}
@@ -322,10 +319,10 @@ function UserHome() {
                                   {subCategorys.map(subCategory => (
                                     <option key={subCategory.id} value={subCategory.name}>{subCategory.name}</option>
                                   ))}
-                                </select> 
+                                </select>
                               </div>
                               {/* Add task description manually */}
-                              <div className="project-task-description" style={{width:"600%", maxWidth:"48rem", minWidth:"15rem"}}> 
+                              <div className="project-task-description" style={{ width: "600%", maxWidth: "48rem", minWidth: "15rem" }}>
                                 <label htmlFor="Description" className="block mb-2 text-sm font-medium text-black-900 dark:text-black">Enter Task Description</label>
                                 <textarea
                                   type="text"
@@ -336,7 +333,7 @@ function UserHome() {
                                   required
                                   className="block rounded-md border border-gray-300 p-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text- w-full gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                   placeholder="Description"
-                                
+
                                 />
                               </div>
                               {/* Enter time in minutes  */}
@@ -363,8 +360,8 @@ function UserHome() {
                                   // {/* Add Task Button  */ }
                                   !isUpdate ?
                                     <div className=" m-1 flex flex-col justify-end ">
-                                      <button  type="submit" className="relative inline-flex items-center justify-center p-0.5  me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-black focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                                        <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white dark:bg-white-900 rounded-md group-hover:bg-opacity-0">
+                                      <button type="submit" className="relative inline-flex items-center justify-center p-0.5  me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-gray-100 dark:text-black focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                                        <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-gray-100 dark:bg-white-900 rounded-md group-hover:bg-opacity-0">
                                           Add Task
                                         </span>
                                       </button>
@@ -386,16 +383,16 @@ function UserHome() {
 
                             </div>
                           </div>
-                    </form>
-                    <div className="m-1 flex flex-col justify-end">
-                      <button type="reset" onClick={() => setFormData(defaultTaskData)} className="relative w-max	 inline-flex items-center justify-center p-0.5 me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-red-400 to-red-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-black focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                        <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white dark:bg-white-900 rounded-md group-hover:bg-opacity-0">
-                          Clear
-                        </span>
-                      </button>
-                    </div>
+                        </form>
+                        <div className="m-1 flex flex-col justify-end">
+                          <button type="reset" onClick={() => setFormData(defaultTaskData)} className="relative w-max	 inline-flex items-center justify-center p-0.5 me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-red-400 to-red-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-black focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                            <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white dark:bg-white-900 rounded-md group-hover:bg-opacity-0">
+                              Clear
+                            </span>
+                          </button>
                         </div>
                       </div>
+                    </div>
 
                   </div>
                   {/*footer*/}
@@ -407,11 +404,7 @@ function UserHome() {
                     >
                       Close
                     </button>
-                    {/* <button onClick={() => setShowModal(false)} className="relative inline-flex items-center justify-center p-0.5  me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-black focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                        <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white dark:bg-white-900 rounded-md group-hover:bg-opacity-0">
-                          Add Task
-                        </span>
-                      </button> */}
+
                   </div>
                 </div>
               </div>
@@ -426,8 +419,8 @@ function UserHome() {
         <div className="m-2 p-2">
           <div className=" flex justify-between items-center">
             <div className=" ">
-              <button onClick={() => {setShowModal(true); particularProject();}} className="relative inline-flex items-center justify-center p-0.5  me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-black focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white dark:bg-white-900 rounded-md group-hover:bg-opacity-0">
+              <button onClick={() => { setShowModal(true); particularProject(); }} className="relative inline-flex items-center justify-center p-0.5  me-2 overflow-hidden text-sm font-medium text-black-900 hover:text-gray-100 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 hover:bg-green-400 hover:blue-600  dark:text-black focus:ring-4 focus:outline-none focus:ring-green-900 focus:ring-green-800">
+                <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-gray-100 dark:bg-white-900 rounded-md hover:bg-opacity-0">
                   Add Task
                 </span>
               </button>
@@ -448,7 +441,7 @@ function UserHome() {
           </div>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left rtl:text-right text-white dark:text-gray">
-              <thead className="text-xs text-black uppercase bg-white dark:bg-gray-700 dark:text-white-400">
+              <thead className="text-xs  uppercase bg-gray-700 dark:text-white-400">
                 <tr>
                   <th scope="col" className="px-3 py-2">S.no.</th>
                   <th scope="col" className="px-3 py-2">Project/Client Name</th>
@@ -462,7 +455,7 @@ function UserHome() {
               </thead>
               <tbody>
                 {taskData.map((task, index) => (
-                  <tr key={task.id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                  <tr key={task.id} className=" odd:bg-gray-900  even:bg-gray-800 border-b border-gray-700">
                     <td className="px-3 py-2">{index + 1}</td>
                     <td className="px-3 py-2">{task.ProjectOrClientName}</td>
                     <td className="px-3 py-2">{task.Category}</td>
@@ -471,8 +464,8 @@ function UserHome() {
                     <td className="px-3 py-2">{task.ConsumingTimeInMin}</td>
                     <td className="px-3 py-2">{task.TotalConsumingTime}</td>
                     <td className="px-3 py-2 flex-wrap">
-                      <Link to="#" onClick={() => { handleEditTask(task) }} className="font-medium text-blue-600 dark:text-blue-500 hover:underline px-1">Edit</Link>
-                      <Link to="#" onClick={() => handleDeleteTask(task.id)} className="font-medium text-red-600 dark:text-red-500 hover:underline px-1">Remove</Link>
+                      <Link to="#" onClick={() => { handleEditTask(task) }} className="font-medium text-blue-600 text-blue-500 hover:underline px-1">Edit</Link>
+                      <Link to="#" onClick={() => handleDeleteTask(task.id)} className="font-medium text-red-600 text-red-500 hover:underline px-1">Remove</Link>
                     </td>
                   </tr>
                 ))}

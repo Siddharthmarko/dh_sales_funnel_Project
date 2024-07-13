@@ -12,16 +12,17 @@ function Footer() {
             </Link>
             <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
               <li>
-                <Link to="#" className="hover:underline me-4 md:me-6">About</Link>
+                <Link to="https://doaguru.com/about_us" className="hover:underline me-4 md:me-6">About</Link>
               </li>
               <li>
-                <Link to="#" className="hover:underline me-4 md:me-6">Privacy Policy</Link>
+                <Link to="https://doaguru.com/privacy-policy" className="hover:underline me-4 md:me-6">Privacy Policy</Link>
               </li>
               <li>
-                <Link to="#" className="hover:underline me-4 md:me-6">Licensing</Link>
+                <Link to="https://doaguru.com/terms-&-condition" className="hover:underline me-4 md:me-6">Terms & Condition
+                </Link>
               </li>
               <li>
-                <Link to="#" className="hover:underline">Contact</Link>
+                <Link to="https://doaguru.com/contact_us" className="hover:underline">Contact</Link>
               </li>
             </ul>
           </div>
