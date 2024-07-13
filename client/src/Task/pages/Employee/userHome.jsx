@@ -384,9 +384,9 @@ function UserHome() {
                             </div>
                           </div>
                         </form>
-                        <div className="m-1 flex flex-col justify-end">
-                          <button type="reset" onClick={() => setFormData(defaultTaskData)} className="relative w-max	 inline-flex items-center justify-center p-0.5 me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-red-400 to-red-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-black focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                            <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white dark:bg-white-900 rounded-md group-hover:bg-opacity-0">
+                        <div className="m-1 flex flex-col mt-3 justify-end">
+                          <button type="reset" onClick={() => setFormData(defaultTaskData)} className="relative w-max	 inline-flex items-center justify-center p-0.5 me-2 overflow-hidden text-sm font-medium text-black-900 rounded-lg group bg-gradient-to-br from-red-400 to-orange-600 hover:from-red-600 hover:to-orange-400 hover:text-white dark:text-black focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-oarnge-800">
+                            <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-gray-50 dark:bg-white-900 rounded-md group-hover:bg-opacity-0">
                               Clear
                             </span>
                           </button>
