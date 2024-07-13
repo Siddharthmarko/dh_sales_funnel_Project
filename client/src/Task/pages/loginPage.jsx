@@ -5,7 +5,7 @@ import axios from "axios"
 // import cogoToast from 'cogo-toast';
 
 // eslint-disable-next-line react/prop-types
-function LoginPage({setRender}) {
+function LoginPage({ setRender }) {
   const [showModal, setShowModal] = React.useState(false);
 
   const [emailId, setEmailId] = useState('');
@@ -41,7 +41,7 @@ function LoginPage({setRender}) {
           console.log('Error details:', error);
         }
       });
-      
+
   };
 
   const handleAdminLogin = (e) => {
@@ -52,10 +52,10 @@ function LoginPage({setRender}) {
           let save = response.data.user;
           save = JSON.stringify(save);
           localStorage.setItem('user', save);
-        
-        alert(response.data.message);
-        setRender()
-        navigate('/task/Admin-Home-page')
+
+          alert(response.data.message);
+          setRender()
+          navigate('/task/Admin-Home-page')
         } else {
           console.error('Unexpected response format:', response.data);
           alert('Login successful, but user data is missing.');
@@ -202,13 +202,13 @@ function LoginPage({setRender}) {
                               <div className="usernamee">
                                 <label htmlFor="username" className="block mb-2 text-sm font-medium text-black-900 dark:text-black">Your User Name</label>
                                 <input
-                                required
+                                  required
                                   id="username"
                                   name="username"
                                   type="text"
                                   placeholder="Admin User Name"
                                   onChange={(e) => setEmailId(e.target.value)}
-                              
+
                                   className="block border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-2.5 light:bg-white-700 dark:border-gray-600 dark:placeholder-black-400 dark:text-black dark:focus:ring-black-500 dark:focus:border-blue-500" />
 
                               </div>
@@ -223,7 +223,7 @@ function LoginPage({setRender}) {
                                   type="password"
 
                                   onChange={(e) => setPassword(e.target.value)}
-                                  
+
                                   className="block border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-2.5 light:bg-white-700 border-gray-600 placeholder-black-400 text-black focus:ring-black-500 focus:border-blue-500" />
 
                               </div>
