@@ -1,5 +1,6 @@
 const { db } = require("../config/db");
-const { getAllAssociates } = require("./sheduler/email");
+const { getAllAssociates, nodemailerTest } = require("./sheduler/email");
+const excel = require('exceljs');
 
 const test = async (req, res) => {
   res.send({ data: "Test Sucess Full" });
@@ -234,17 +235,15 @@ const updateMeeting = (req, res) => {
   );
 };
 
-const mailTest = (req, res) => {
+const mailTest =  (req, res) => {
   try {
-    getAllAssociates();
-    res.status(200).json({messaages: 'SUccessfully'});
+        const ans = nodemailerTest();
+        getAllAssociates();
+        res.status(200).json({messaages: 'SUccessfully', result: ans});
   } catch (err) {
     res.status(400).json({messaages: 'Error'});
   }
 }
-
-const excel = require('exceljs');
-
 // Route to add-Task data 
 const AddData = (req, res) => {
   console.log('here');
