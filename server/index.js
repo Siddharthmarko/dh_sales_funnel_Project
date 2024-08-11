@@ -6,7 +6,8 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const userRoutes = require('./router/userRoute.js');
 const authRoutes = require('./router/authRoute.js');
-// const cron = require('node-cron');
+const deleteRoute = require('./router/deletsRoutes.js');
+// const cron = require('node-cron');   
 const {getAllAssociates} = require('./controller/sheduler/email.js');
 
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(cookieParser()); 
 app.use(userRoutes);
 app.use(authRoutes);
+app.use(deleteRoute);
 
 // by cron job
 // (function () {  

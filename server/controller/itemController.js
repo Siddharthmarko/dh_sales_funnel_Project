@@ -5,6 +5,8 @@ const test = async (req, res) => {
   res.send({ data: "Test Sucess Full" });
 };
 
+const excel = require('exceljs');
+
 const addLead = (req, res) => {
   try {
     const { u_Id, fullName, mobileNo, email, address, inquiryType } = req.body;
@@ -243,7 +245,7 @@ const mailTest = (req, res) => {
   }
 }
 
-const excel = require('exceljs');
+
 
 // Route to add-Task data 
 const AddData = (req, res) => {

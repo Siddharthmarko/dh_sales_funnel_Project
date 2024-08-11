@@ -69,10 +69,8 @@ const Commonjs = () => {
             page == 'task'
                 ? userRole === 'admin'
                     ? <AdminNavbar Logout={handleLogout} render={render} />
-                    : 
-                    <Navbar Logout={handleLogout} render={render} />
-                    : 
-                    page === 'sales' ? <Sales_Navbar Logout={handleLogout} />
+                    : <Navbar Logout={handleLogout} render={render} />
+                : page === 'sales' ? <Sales_Navbar Logout={handleLogout} />
                     : ''
 
         }
@@ -107,13 +105,8 @@ const Commonjs = () => {
 
                 {/*--------------- Task app ----------------- */}
                 {/* <TaskApp /> */}
-                {
-                    userRole == 'admin' 
-                    ? <Route path="/task/login" element={<LoginPage setRender={handleRender} />} />
-                    :
-                    <Route path='/task/Admin-Home-page' element={<AdminHomePage />} />
-                    
-                }
+                {/* {userRole === 'admin' ? (<Route path='/' element={<AdminHomePage/>}/>) : (<Route path="/Logout" element={<LoginPage setRender={handleRender} />} />)} */}
+                <Route path="/task/login" element={<LoginPage setRender={handleRender} />} />
                 <Route path="/task/UserHome" element={<UserHome />} />
                 <Route path="/task/TaskView" element={<TaskView />} />
 
