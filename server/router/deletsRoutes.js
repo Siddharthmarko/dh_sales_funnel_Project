@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { deleteProject,
+const { 
+   deleteProject,
    deleteCategory,
    
    } = require("../controller/deleteControler");
@@ -8,8 +9,11 @@ const { deleteProject,
 
 // Route to delete a projects
 router.post('/api/delete-projects', deleteProject);
+//Route for Delete Category 
+router.post('/api/delete-categorys', deleteCategory);
 
-router.delete('/api/delete-category', deleteCategory);
+//Route for delete user Employee 
+router.post('/api/',);
 
 
 

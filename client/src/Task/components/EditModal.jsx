@@ -34,7 +34,7 @@ function EditModal({ show, onClose, onSubmit, item, type }) {
         <h2 className="text-xl mb-4">Edit {type}</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-2">
-            <label className="block text-sm font-medium">Update Name</label>
+            <label className="block text-sm font-medium">Update {type}</label>
             <input
               type="text"
               name="name"

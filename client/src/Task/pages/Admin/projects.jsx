@@ -23,30 +23,33 @@ function ProjectsPage() {
       .catch(error => {
         console.error('Error fetching projects:', error);
       });
-
-    // Fetch categories
+  
+    // Fetch categories and their subcategories
     axios.get('http://localhost:8080/api/category-list')
       .then(response => {
         setCategories(response.data);
-        setSubcategories([]);
+  
+        // Reset subcategories to avoid duplication
+        const allSubcategories = [];
         response.data.forEach(category => {
-          gettingSubCategory(category.id);
+          gettingSubCategory(category.id, allSubcategories);
         });
       })
       .catch(error => {
         console.error('Error fetching categories:', error);
       });
   }, []);
-
-
-
-  const gettingSubCategory = (selectedCategory) => {
+  
+  const gettingSubCategory = (selectedCategory, allSubcategories) => {
     axios.get(`http://localhost:8080/api/sub-category-list?category_id=${selectedCategory}`)
       .then(response => {
-        setSubcategories(prevSubcategories => [
-          ...prevSubcategories,
-          ...response.data
-        ]);
+        // Add subcategories to the array
+        allSubcategories.push(...response.data);
+  
+        // Set the final subcategories after all are fetched
+        setSubcategories([...allSubcategories]);
+  
+        console.log(response.data, 'line51');
       })
       .catch(error => {
         console.error('Error fetching subcategories:', error);
@@ -56,11 +59,11 @@ function ProjectsPage() {
   // Function to handle opening the modal
 
   const handleEditClick = (item, type) => {
-    const { name } = item;
+    // const { name } = item;
     console.log('Item:', item);
     console.log('Type:', type);
-    setModalData({ name });
-    console.log(setModalData);
+    setModalData(item);
+    console.log(setModalData, 'line 66');
 
     setModalType(type);
   };
@@ -68,12 +71,14 @@ function ProjectsPage() {
   // Function to handle form submission in the modal
   const handleEditSubmit = (updatedData) => {
     // Send a request to update the data in the database
+    console.log(updatedData);
+    
     axios.post(`http://localhost:8080/api/update-${modalType}`, updatedData)
       .then(response => {
         // Handle the response and update the UI
         toast.success(`${modalType} updated successfully`, { position: 'top-right' });
         // Update the state with the new data
-        if (modalType === 'project') {
+        if (modalType === 'projects') {
           setProjects(projects.map(project => project.id === updatedData.id ? updatedData : project));
         } else if (modalType === 'category') {
           setCategories(categories.map(category => category.id === updatedData.id ? updatedData : category));
@@ -97,32 +102,38 @@ function ProjectsPage() {
     if (isConfirmed) {
       axios.post(`http://localhost:8080/api/delete-${type}`, { id })
         .then(response => {
-          // Success response handling
+       
           toast.success(`${type} removed successfully`, { position: 'top-right' });
 
           // Update the UI by removing the deleted item from the state
           if (type === 'projects') {
             setProjects(projects.filter(project => project.id !== id));
-          } else if (type === 'category') {
+          } else if (type === 'categorys') {
             setCategories(categories.filter(category => category.id !== id));
 
-            // Also remove associated subcategories
+            // Also remove forigen subcategories
             setSubcategories(subcategories.filter(subcategory => subcategory.category_id !== id));
+
           } else if (type === 'subcategory') {
             setSubcategories(subcategories.filter(subcategory => subcategory.id !== id));
           }
         })
         .catch(error => {
-          // Error response handling
           console.error('There was an error!', error);
-          toast.error(`Failed to remove ${type}`, { position: 'top-right' });
+          
+          toast.error(
+            type === 'subcategory'
+              ? `Failed to remove ${type} because subcategories are dependent on Category`
+              : `Failed to remove ${type}` ,
+            { position: 'top-right' }
+          );
         });
     }
   };
 
 
   useEffect(() => {
-
+    
   }, [projects])
 
   return (
@@ -157,7 +168,7 @@ function ProjectsPage() {
                       <td className="px-3 py-2">{project.id}</td>
                       <td className="px-3 py-2">{project.name}</td>
                       <td className="px-3 py-2 flex">
-                        <Link to="#" onClick={() => handleEditClick(project, 'project')} className="font-medium text-blue-600 dark:text-blue-500 hover:underline px-1">Edit</Link>
+                        <Link to="#" onClick={() => handleEditClick(project, 'projects')} className="font-medium text-blue-600 dark:text-blue-500 hover:underline px-1">Edit</Link>
                         <Link to="#" onClick={() => handleDeleteTask(project.id, 'projects')} className="font-medium text-red-600 dark:text-red-500 hover:underline px-1">Remove</Link>
                       </td>
                     </tr>
@@ -186,7 +197,7 @@ function ProjectsPage() {
                       <td className="px-3 py-2">{category.name}</td>
                       <td className="px-3 py-2 flex">
                         <Link to="#" onClick={() => handleEditClick(category, 'category')} className="font-medium text-blue-600 dark:text-blue-500 hover:underline px-1">Edit</Link>
-                        <Link to="#" onClick={() => handleDeleteTask(category.id, 'category')} className="font-medium text-red-600 dark:text-red-500 hover:underline px-1">Remove</Link>
+                        <Link to="#" onClick={() => handleDeleteTask(category.id, 'categorys')} className="font-medium text-red-600 dark:text-red-500 hover:underline px-1">Remove</Link>
                       </td>
                     </tr>
                   ))}
@@ -224,6 +235,7 @@ function ProjectsPage() {
               </table>
             </div>
           </div>
+          
           {/* Edit Modal */}
           <EditModal
             show={modalData !== null}

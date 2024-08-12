@@ -4,9 +4,12 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const app = express();
+
 const userRoutes = require('./router/userRoute.js');
 const authRoutes = require('./router/authRoute.js');
 const deleteRoute = require('./router/deletsRoutes.js');
+const updateRoute = require('./router/updatesRoute.js')
+
 // const cron = require('node-cron');   
 const {getAllAssociates} = require('./controller/sheduler/email.js');
 
@@ -18,6 +21,7 @@ app.use(cookieParser());
 app.use(userRoutes);
 app.use(authRoutes);
 app.use(deleteRoute);
+app.use(updateRoute);
 
 // by cron job
 // (function () {  
