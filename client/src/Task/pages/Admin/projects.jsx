@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import EditModal from "../../components/EditModal";
+import PaginationControls from "../../components/Pagination";
+
+
 
 function ProjectsPage() {
   const [projects, setProjects] = useState([]);
@@ -11,7 +14,12 @@ function ProjectsPage() {
   const [modalData, setModalData] = useState(null);
   const [modalType, setModalType] = useState('');
 
-  console.log(modalData);
+  // Pagination state
+  const [currentPageProjects, setCurrentPageProjects] = useState(1);
+  const [currentPageCategories, setCurrentPageCategories] = useState(1);
+  const [currentPageSubcategories, setCurrentPageSubcategories] = useState(1);
+
+  const rowsPerPage = 10;
 
 
   useEffect(() => {
@@ -23,12 +31,12 @@ function ProjectsPage() {
       .catch(error => {
         console.error('Error fetching projects:', error);
       });
-  
+
     // Fetch categories and their subcategories
     axios.get('http://localhost:8080/api/category-list')
       .then(response => {
         setCategories(response.data);
-  
+
         // Reset subcategories to avoid duplication
         const allSubcategories = [];
         response.data.forEach(category => {
@@ -39,22 +47,43 @@ function ProjectsPage() {
         console.error('Error fetching categories:', error);
       });
   }, []);
-  
+
   const gettingSubCategory = (selectedCategory, allSubcategories) => {
     axios.get(`http://localhost:8080/api/sub-category-list?category_id=${selectedCategory}`)
       .then(response => {
         // Add subcategories to the array
         allSubcategories.push(...response.data);
-  
+
         // Set the final subcategories after all are fetched
         setSubcategories([...allSubcategories]);
-  
+
         console.log(response.data, 'line51');
       })
       .catch(error => {
         console.error('Error fetching subcategories:', error);
       });
   };
+
+  //Pagination function 
+  const getTotalPages = (data) => Math.ceil(data.length / rowsPerPage);
+  const getCurrentRows = (data, currentPage) => {
+    const indexOfLastRow = currentPage * rowsPerPage;
+    const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+    return data.slice(indexOfFirstRow, indexOfLastRow);
+  };
+
+  const handleNextPage = (setter, currentPage, totalPages) =>{
+    if(currentPage< totalPages){
+      setter(currentPage+1);
+    }
+  };
+
+  const handlePreviousPage = (setter, currentPage) =>{
+    if(currentPage > 1){
+      setter(currentPage - 1 );
+    }
+  };
+  
 
   // Function to handle opening the modal
 
@@ -72,7 +101,7 @@ function ProjectsPage() {
   const handleEditSubmit = (updatedData) => {
     // Send a request to update the data in the database
     console.log(updatedData);
-    
+
     axios.post(`http://localhost:8080/api/update-${modalType}`, updatedData)
       .then(response => {
         // Handle the response and update the UI
@@ -102,7 +131,7 @@ function ProjectsPage() {
     if (isConfirmed) {
       axios.post(`http://localhost:8080/api/delete-${type}`, { id })
         .then(response => {
-       
+
           toast.success(`${type} removed successfully`, { position: 'top-right' });
 
           // Update the UI by removing the deleted item from the state
@@ -120,11 +149,11 @@ function ProjectsPage() {
         })
         .catch(error => {
           console.error('There was an error!', error);
-          
+
           toast.error(
             type === 'subcategory'
               ? `Failed to remove ${type} because subcategories are dependent on Category`
-              : `Failed to remove ${type}` ,
+              : `Failed to remove ${type}`,
             { position: 'top-right' }
           );
         });
@@ -133,7 +162,7 @@ function ProjectsPage() {
 
 
   useEffect(() => {
-    
+
   }, [projects])
 
   return (
@@ -147,13 +176,13 @@ function ProjectsPage() {
         <div className="flex">
           <h1 className="m-auto font-bold">Project Details</h1>
         </div>
-        <div className="allTable flex ">
+        <div className="allTable flex flex-wrap justify-center">
 
 
           {/* Projects Table */}
           <div className="projectsTable">
             <h2 className="text-lg font-semibold mt-4 mb-2">Projects</h2>
-            <div className="relative mx-4 overflow-x-auto shadow-md sm:rounded-lg">
+            <div className="relative mx-4 overflow-x-auto shadow-md rounded-lg">
               <table className="w-full text-sm text-left text-gray-700 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
@@ -163,7 +192,7 @@ function ProjectsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {projects.map((project, index) => (
+                  {getCurrentRows(projects, currentPageProjects).map((project, index) => (
                     <tr key={project.id} className="odd:bg-white even:bg-gray-50 dark:odd:bg-gray-900 dark:even:bg-gray-800 border-b dark:border-gray-700">
                       <td className="px-3 py-2">{project.id}</td>
                       <td className="px-3 py-2">{project.name}</td>
@@ -175,13 +204,21 @@ function ProjectsPage() {
                   ))}
                 </tbody>
               </table>
+              {getTotalPages(projects)> 1 &&(
+                <PaginationControls
+                currentPage={currentPageProjects}
+                totalPages={getTotalPages(projects)}
+                onNextPage={()=> handleNextPage(setCurrentPageProjects, currentPageProjects, getTotalPages(projects))}
+                onPreviousPage={()=> handlePreviousPage(setCurrentPageProjects, currentPageProjects)}
+                />
+              )}
             </div>
           </div>
 
           {/* Categories Table */}
           <div className="CategoriesTable">
             <h2 className="text-lg font-semibold mt-4 mb-2">Categories</h2>
-            <div className="relative mx-4 overflow-x-auto shadow-md sm:rounded-lg">
+            <div className="relative mx-4 overflow-x-auto shadow-md rounded-lg">
               <table className="w-full text-sm text-left text-gray-700 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
@@ -191,7 +228,7 @@ function ProjectsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {categories.map(category => (
+                  {getCurrentRows(categories, currentPageCategories).map(category => (
                     <tr key={category.id} className="odd:bg-white even:bg-gray-50 dark:odd:bg-gray-900 dark:even:bg-gray-800 border-b dark:border-gray-700">
                       <td className="px-3 py-2">{category.id}</td>
                       <td className="px-3 py-2">{category.name}</td>
@@ -203,16 +240,26 @@ function ProjectsPage() {
                   ))}
                 </tbody>
               </table>
+              {/* Pagination Controls for Categories */}
+          {getTotalPages(categories) > 1 && (
+            <PaginationControls
+              currentPage={currentPageCategories}
+              totalPages={getTotalPages(categories)}
+              onNextPage={() => handleNextPage(setCurrentPageCategories, currentPageCategories, getTotalPages(categories))}
+              onPreviousPage={() => handlePreviousPage(setCurrentPageCategories, currentPageCategories)}
+            />
+          )}
             </div>
           </div>
 
           {/* Subcategories Table */}
           <div className="SubcategoriesTable">
             <h2 className="text-lg font-semibold mt-4 mb-2">Subcategories</h2>
-            <div className="relative mx-4 overflow-x-auto shadow-md sm:rounded-lg">
+            <div className="relative mx-4 overflow-x-auto shadow-md rounded-lg">
               <table className="w-full text-sm text-left text-gray-700 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
+                    {/* <th scope="col" className="px-3 py-2">S.no</th> */}
                     <th scope="col" className="px-3 py-2">Subcategory ID</th>
                     <th scope="col" className="px-3 py-2">Subcategory Name</th>
                     <th scope="col" className="px-3 py-2">Category ID</th>
@@ -220,8 +267,9 @@ function ProjectsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {subcategories.map(subcategory => (
+                  {getCurrentRows(subcategories, currentPageSubcategories).map((subcategory, index) => (
                     <tr key={subcategory.id} className="odd:bg-white even:bg-gray-50 dark:odd:bg-gray-900 dark:even:bg-gray-800 border-b dark:border-gray-700">
+                      {/* <td className="px-3 py-2">{index+1}</td> */}
                       <td className="px-3 py-2">{subcategory.id}</td>
                       <td className="px-3 py-2">{subcategory.name}</td>
                       <td className="px-3 py-2">{subcategory.category_id}</td>
@@ -233,9 +281,21 @@ function ProjectsPage() {
                   ))}
                 </tbody>
               </table>
+
+              {/* Pagination Controls */}
+                  {/* Pagination Controls for Categories */}
+          {getTotalPages(subcategories) > 1 && (
+            <PaginationControls
+              currentPage={currentPageSubcategories}
+              totalPages={getTotalPages(subcategories)}
+              onNextPage={() => handleNextPage(setCurrentPageSubcategories, currentPageSubcategories, getTotalPages(subcategories))}
+              onPreviousPage={() => handlePreviousPage(setCurrentPageSubcategories, currentPageSubcategories)}
+            />
+          )}
             </div>
           </div>
-          
+
+
           {/* Edit Modal */}
           <EditModal
             show={modalData !== null}
