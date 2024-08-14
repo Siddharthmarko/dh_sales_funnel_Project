@@ -18,8 +18,12 @@ function ProjectsPage() {
   const [currentPageProjects, setCurrentPageProjects] = useState(1);
   const [currentPageCategories, setCurrentPageCategories] = useState(1);
   const [currentPageSubcategories, setCurrentPageSubcategories] = useState(1);
+  // Row per page state
+  const [rowsPerPageProjects, setRowsPerPageProjects] = useState(5);
+  const [rowsPerPageCategories, setRowsPerPageCategories] = useState(5);
+  const [rowsPerPageSubcategories, setRowsPerPageSubcategories] = useState(10);
 
-  const rowsPerPage = 10;
+  // const rowsPerPage = 10;
 
 
   useEffect(() => {
@@ -65,25 +69,28 @@ function ProjectsPage() {
   };
 
   //Pagination function 
-  const getTotalPages = (data) => Math.ceil(data.length / rowsPerPage);
-  const getCurrentRows = (data, currentPage) => {
+  const getTotalPages = (data, rowsPerPage) => Math.ceil(data.length / rowsPerPage);
+  const getCurrentRows = (data, currentPage, rowsPerPage) => {
     const indexOfLastRow = currentPage * rowsPerPage;
     const indexOfFirstRow = indexOfLastRow - rowsPerPage;
     return data.slice(indexOfFirstRow, indexOfLastRow);
   };
 
-  const handleNextPage = (setter, currentPage, totalPages) =>{
-    if(currentPage< totalPages){
-      setter(currentPage+1);
+  const handleNextPage = (setter, currentPage, totalPages) => {
+    if (currentPage < totalPages) {
+      setter(currentPage + 1);
     }
   };
 
-  const handlePreviousPage = (setter, currentPage) =>{
-    if(currentPage > 1){
-      setter(currentPage - 1 );
+  const handlePreviousPage = (setter, currentPage) => {
+    if (currentPage > 1) {
+      setter(currentPage - 1);
     }
   };
-  
+// handle row per page in table 
+const handleRowsPerPage = (event, setter) => {
+  setter(parseInt(event.target.value));
+};
 
   // Function to handle opening the modal
 
@@ -183,6 +190,15 @@ function ProjectsPage() {
           <div className="projectsTable">
             <h2 className="text-lg font-semibold mt-4 mb-2">Projects</h2>
             <div className="relative mx-4 overflow-x-auto shadow-md rounded-lg">
+              <div className="mb-0.5">
+                <span className="text-xs">Select Page </span>
+                <select name="rowsPerPage" id="rowsPerPage" className="text-xs rounded border-1 " onChange={(e) => handleRowsPerPage(e, setRowsPerPageProjects)} 
+                value={rowsPerPageProjects}>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                </select>
+              </div>
               <table className="w-full text-sm text-left text-gray-700 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
@@ -192,7 +208,7 @@ function ProjectsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {getCurrentRows(projects, currentPageProjects).map((project, index) => (
+                  {getCurrentRows(projects, currentPageProjects, rowsPerPageProjects).map((project, index) => (
                     <tr key={project.id} className="odd:bg-white even:bg-gray-50 dark:odd:bg-gray-900 dark:even:bg-gray-800 border-b dark:border-gray-700">
                       <td className="px-3 py-2">{project.id}</td>
                       <td className="px-3 py-2">{project.name}</td>
@@ -204,12 +220,12 @@ function ProjectsPage() {
                   ))}
                 </tbody>
               </table>
-              {getTotalPages(projects)> 1 &&(
+              {getTotalPages(projects, rowsPerPageProjects) > 1 && (
                 <PaginationControls
-                currentPage={currentPageProjects}
-                totalPages={getTotalPages(projects)}
-                onNextPage={()=> handleNextPage(setCurrentPageProjects, currentPageProjects, getTotalPages(projects))}
-                onPreviousPage={()=> handlePreviousPage(setCurrentPageProjects, currentPageProjects)}
+                  currentPage={currentPageProjects}
+                  totalPages={getTotalPages(projects, rowsPerPageProjects)}
+                  onNextPage={() => handleNextPage(setCurrentPageProjects, currentPageProjects, getTotalPages(projects, rowsPerPageProjects))}
+                  onPreviousPage={() => handlePreviousPage(setCurrentPageProjects, currentPageProjects)}
                 />
               )}
             </div>
@@ -219,6 +235,16 @@ function ProjectsPage() {
           <div className="CategoriesTable">
             <h2 className="text-lg font-semibold mt-4 mb-2">Categories</h2>
             <div className="relative mx-4 overflow-x-auto shadow-md rounded-lg">
+            <div className="mb-0.5">
+                <span className="text-xs">Select Rows Per Page </span>
+                <select name="rowsPerPage" id="rowsPerPage" className="text-xs rounded border-1 "
+                onChange={(e) => handleRowsPerPage(e, setRowsPerPageCategories)} 
+                value={rowsPerPageCategories}>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                </select>
+              </div>
               <table className="w-full text-sm text-left text-gray-700 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
@@ -228,7 +254,7 @@ function ProjectsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {getCurrentRows(categories, currentPageCategories).map(category => (
+                  {getCurrentRows(categories, currentPageCategories, rowsPerPageCategories).map(category => (
                     <tr key={category.id} className="odd:bg-white even:bg-gray-50 dark:odd:bg-gray-900 dark:even:bg-gray-800 border-b dark:border-gray-700">
                       <td className="px-3 py-2">{category.id}</td>
                       <td className="px-3 py-2">{category.name}</td>
@@ -241,14 +267,14 @@ function ProjectsPage() {
                 </tbody>
               </table>
               {/* Pagination Controls for Categories */}
-          {getTotalPages(categories) > 1 && (
-            <PaginationControls
-              currentPage={currentPageCategories}
-              totalPages={getTotalPages(categories)}
-              onNextPage={() => handleNextPage(setCurrentPageCategories, currentPageCategories, getTotalPages(categories))}
-              onPreviousPage={() => handlePreviousPage(setCurrentPageCategories, currentPageCategories)}
-            />
-          )}
+              {getTotalPages(categories, rowsPerPageCategories) > 1 && (
+                <PaginationControls
+                  currentPage={currentPageCategories}
+                  totalPages={getTotalPages(categories, rowsPerPageCategories)}
+                  onNext={() => handleNextPage(setCurrentPageCategories, currentPageCategories, getTotalPages(categories, rowsPerPageCategories))}
+                  onPrevious={() => handlePreviousPage(setCurrentPageCategories)}
+                />
+              )}
             </div>
           </div>
 
@@ -256,6 +282,16 @@ function ProjectsPage() {
           <div className="SubcategoriesTable">
             <h2 className="text-lg font-semibold mt-4 mb-2">Subcategories</h2>
             <div className="relative mx-4 overflow-x-auto shadow-md rounded-lg">
+            <div className="mb-0.5">
+                <span className="text-xs">Select Rows Per Page </span>
+                <select name="rowsPerPage" id="rowsPerPage" className="text-xs rounded border-1 " 
+                onChange={(e) => handleRowsPerPage(e, setRowsPerPageSubcategories)} 
+                value={rowsPerPageSubcategories}>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                </select>
+              </div>
               <table className="w-full text-sm text-left text-gray-700 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
@@ -267,7 +303,7 @@ function ProjectsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {getCurrentRows(subcategories, currentPageSubcategories).map((subcategory, index) => (
+                  {getCurrentRows(subcategories, currentPageSubcategories, rowsPerPageSubcategories).map((subcategory, index) => (
                     <tr key={subcategory.id} className="odd:bg-white even:bg-gray-50 dark:odd:bg-gray-900 dark:even:bg-gray-800 border-b dark:border-gray-700">
                       {/* <td className="px-3 py-2">{index+1}</td> */}
                       <td className="px-3 py-2">{subcategory.id}</td>
@@ -283,20 +319,20 @@ function ProjectsPage() {
               </table>
 
               {/* Pagination Controls */}
-                  {/* Pagination Controls for Categories */}
-          {getTotalPages(subcategories) > 1 && (
-            <PaginationControls
-              currentPage={currentPageSubcategories}
-              totalPages={getTotalPages(subcategories)}
-              onNextPage={() => handleNextPage(setCurrentPageSubcategories, currentPageSubcategories, getTotalPages(subcategories))}
-              onPreviousPage={() => handlePreviousPage(setCurrentPageSubcategories, currentPageSubcategories)}
-            />
-          )}
+              {/* Pagination Controls for Categories */}
+              {getTotalPages(subcategories, rowsPerPageSubcategories) > 1 && (
+                <PaginationControls
+                  currentPage={currentPageSubcategories}
+                  totalPages={getTotalPages(subcategories, rowsPerPageSubcategories)}
+                  onNext={() => handleNextPage(setCurrentPageSubcategories, currentPageSubcategories, getTotalPages(subcategories, rowsPerPageSubcategories))}
+                  onPrevious={() => handlePreviousPage(setCurrentPageSubcategories)}
+                />
+              )}
             </div>
           </div>
 
-
           {/* Edit Modal */}
+
           <EditModal
             show={modalData !== null}
             onClose={() => setModalData(null)}

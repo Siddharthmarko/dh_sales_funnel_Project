@@ -35,16 +35,18 @@ const Commonjs = () => {
     const [userRole, setUserRole] = useState(null);
 
     const handleLogout = () => {
-        // console.log('Logout function called');
         localStorage.removeItem('user')
         setRender(true);
-        navigate('/');
         handleRender();
+        // navigate('/');
+        window.location.href = '/';
     }
 
     const handleRender = () => {
         setRender(!render)
     }
+ 
+
 
     useEffect(() => {
         let path = window.location.pathname;
@@ -58,24 +60,27 @@ const Commonjs = () => {
         console.log(page);
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
+
             setUserRole(user.role)
         }
+        console.log(user, 'line 65');
+        
     }, [window.location.pathname]);
 
     return (
-        < > 
-        <Toaster /> 
-          {
-            page == 'task'
-                ? userRole === 'admin'
-                    ? <AdminNavbar Logout={handleLogout} render={render} />
-                    : 
-                    <Navbar Logout={handleLogout} render={render} />
-                    : 
+        < >
+            <Toaster />
+            {
+                page == 'task'
+                    ? userRole === 'admin'
+                        ? <AdminNavbar Logout={handleLogout} render={render} />
+                        :
+                        <Navbar Logout={handleLogout} render={render} />
+                    :
                     page === 'sales' ? <Sales_Navbar Logout={handleLogout} />
-                    : ''
+                        : ''
 
-        }
+            }
             <Routes>
                 <Route path="/" element={
                     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600">
@@ -90,7 +95,7 @@ const Commonjs = () => {
                                     Sales
                                 </Link>
                                 <Link
-                                    to={'/task/login'}
+                                    to={ userRole === 'user'  ? "/task/UserHome" : '/task/login'   }
                                     className="bg-white text-purple-500 font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-purple-500 hover:text-black transition-all duration-300 transform hover:scale-105"
                                 >
                                     Task
@@ -108,13 +113,24 @@ const Commonjs = () => {
                 {/*--------------- Task app ----------------- */}
                 {/* <TaskApp /> */}
                 {
-                    userRole == 'admin' 
-                    ? <Route path="/task/login" element={<LoginPage setRender={handleRender} />} />
-                    :
-                    <Route path='/task/Admin-Home-page' element={<AdminHomePage />} />
-                    
+                    page === 'task' && userRole === 'admin' && (
+                        <Route path='/task/Admin-Home-page' element={<AdminHomePage />} />
+                    )
                 }
-                <Route path="/task/UserHome" element={<UserHome />} />
+
+                {
+                    page === 'task' && userRole === 'user' && (
+                        <Route path="/task/UserHome" element={<UserHome />} />
+                    )
+                }
+
+                {
+                    page === 'task' && userRole !== 'admin' && userRole !== 'user' && (
+                        <Route path="/task/login" element={<LoginPage setRender={handleRender} />} />
+                    )
+                }
+
+                {/* <Route path="/task/UserHome" element={<UserHome />} /> */}
                 <Route path="/task/TaskView" element={<TaskView />} />
 
                 {/* Admin Routes  */}
