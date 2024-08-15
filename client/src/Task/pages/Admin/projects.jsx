@@ -190,7 +190,7 @@ const handleRowsPerPage = (event, setter) => {
           <div className="projectsTable">
             <h2 className="text-lg font-semibold mt-4 mb-2">Projects</h2>
             <div className="relative mx-4 overflow-x-auto shadow-md rounded-lg">
-              <div className="mb-0.5">
+              <div className=" Select-table-row mb-0.5">
                 <span className="text-xs">Select Page </span>
                 <select name="rowsPerPage" id="rowsPerPage" className="text-xs rounded border-1 " onChange={(e) => handleRowsPerPage(e, setRowsPerPageProjects)} 
                 value={rowsPerPageProjects}>
@@ -325,7 +325,7 @@ const handleRowsPerPage = (event, setter) => {
                   currentPage={currentPageSubcategories}
                   totalPages={getTotalPages(subcategories, rowsPerPageSubcategories)}
                   onNext={() => handleNextPage(setCurrentPageSubcategories, currentPageSubcategories, getTotalPages(subcategories, rowsPerPageSubcategories))}
-                  onPrevious={() => handlePreviousPage(setCurrentPageSubcategories)}
+                  onPrevious={() => handlePreviousPage(setCurrentPageSubcategories, currentPageSubcategories)}
                 />
               )}
             </div>

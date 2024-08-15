@@ -2,10 +2,44 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import toast from "react-hot-toast";
+import PaginationControls from "../../components/Pagination";
 
 
 function TaskView() {
   const [taskData, setTaskData] = useState([]);
+  console.log(taskData);
+  
+    // Pagination state
+    const [currentPagetask, setCurrentPagetask] = useState(1);
+  // Row per page state
+  const [rowsPerPagetask, setRowsPerPagetask] = useState(5);
+
+  //Pagination function 
+  const getTotalPages = (data, rowsPerPage) => Math.ceil(data.length / rowsPerPage);
+
+  const getCurrentRows = (data, currentPage, rowsPerPage) => {
+    const indexOfLastRow = currentPage * rowsPerPage;
+    const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+    return data.slice(indexOfFirstRow, indexOfLastRow);
+  };
+
+  const handleNextPage = (setter, currentPage, totalPages) => {
+    if (currentPage < totalPages) {
+      setter(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = (setter, currentPage) => {
+    if (currentPage > 1) {
+      setter(currentPage - 1);
+    }
+  };
+// handle row per page in table 
+const handleRowsPerPage = (event, setter) => {
+  setter(parseInt(event.target.value));
+};
+
+
   const handleDeleteTask = (id) => {
     axios.post('http://localhost:8080/api/delete-task', { id })
       .then(response => {
@@ -20,7 +54,13 @@ function TaskView() {
   const myTask = () => {
     let user = localStorage.getItem('user');
     user = JSON.parse(user);
-    // console.log(user);
+    console.log(user);
+    
+    if (!user || !user.id) {
+      console.error('User ID not found');
+      return;
+    }
+
     axios.get(`http://localhost:8080/api/mytask/${user.id}`)
       .then(res => {
         // console.log(res.data)
@@ -49,6 +89,15 @@ function TaskView() {
         <h1 className="text-2xl font-bold text-center py-3 my-2">Task Effort Report</h1>
       </div>
       <div className="relative mx-4 overflow-x-auto shadow-md sm:rounded-lg">
+      <div className=" Select-table-row mb-0.5">
+                <span className="text-xs">Select Page </span>
+                <select name="rowsPerPage" id="rowsPerPage" className="text-xs rounded border-1 " onChange={(e) => handleRowsPerPage(e, setRowsPerPagetask)} 
+                value={rowsPerPagetask}>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                </select>
+              </div>
         <table className="w-full text-sm text-left rtl:text-right text-gray-700 dark:text-gray">
           <thead className="text-xs text-white-900 uppercase bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-100">
             <tr>
@@ -63,7 +112,7 @@ function TaskView() {
             </tr>
           </thead>
           <tbody>
-            {taskData.map((task, index) => (
+            {getCurrentRows(taskData, currentPagetask, rowsPerPagetask).map((task, index) => (
               <tr key={task.id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:text-gray-100 dark:border-gray-700">
                 <td className="px-3 py-2">{index + 1}</td>
                 <td className="px-3 py-2">{task.ProjectOrClientName}</td>
@@ -81,6 +130,14 @@ function TaskView() {
             ))}
           </tbody>
         </table>
+        {getTotalPages(taskData, rowsPerPagetask) > 1 && (
+                <PaginationControls
+                  currentPage={currentPagetask}
+                  totalPages={getTotalPages(taskData, rowsPerPagetask)}
+                  onNextPage={() => handleNextPage(setCurrentPagetask, currentPagetask, getTotalPages(taskData, rowsPerPagetask))}
+                  onPreviousPage={() => handlePreviousPage(setCurrentPagetask, currentPagetask)}
+                />
+              )}
       </div>
     </div>
 

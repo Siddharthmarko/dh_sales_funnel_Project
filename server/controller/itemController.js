@@ -387,7 +387,7 @@ const SubCategoryList = (req, res) => {
 
 // route for user only show user data 
 const myTask = (req, res) => {
-  console.log('OKAY');
+  console.log('OKAY Task a raha he backend se ');
   const { id } = req.params;
   console.log(id);
   const query = 'SELECT * from tasks WHERE user_id = ?';
@@ -395,7 +395,7 @@ const myTask = (req, res) => {
     if (err) {
       return res.status(500).send('Internal Server Error')
     };
-    console.log(result);
+    console.log(result, 'line 398');
     if (result.length < 1) {
       return res.status(404).send('No Data Available')
     };
