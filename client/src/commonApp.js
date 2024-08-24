@@ -27,6 +27,8 @@ import TaskReportDownload from './Task/pages/Admin/Report';
 import Blank from './Task/pages/blank';
 import { Toaster } from 'react-hot-toast';
 import NotFoundPage from "./Task/pages/pageNotfound";
+import AssignProjectDetails from "./Task/pages/Employee/AssignProjects";
+import EmployeeTaskReport from "./Task/pages/Employee/EmployeeReport";
 
 
 const Commonjs = () => {
@@ -133,6 +135,8 @@ const Commonjs = () => {
 
                 {/* <Route path="/task/UserHome" element={<UserHome />} /> */}
                 <Route path="/task/TaskView" element={<TaskView />} />
+                <Route path="/task/AssignProjectDetails" element={<AssignProjectDetails/>} />
+                <Route path="/task/EmployeeTaskReport" element={<EmployeeTaskReport/>} />
 
                 {/* Admin Routes  */}
                 <Route path='/task/Admin-Home-page' element={<AdminHomePage />} />

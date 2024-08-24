@@ -129,13 +129,17 @@ function UserHome() {
   }
   // Remove Task handle 
   const handleDeleteTask = (id) => {
-    axios.post('http://localhost:8080/api/delete-task', { id })
-      .then(response => {
-        toast.success('Task Remove ', { position: 'top-right' });
-       
-        fetchTasks(date)
-      })
-      .catch(error => console.error('There was an error!', error));
+    const isConfirm = window.confirm("Are You Sure Remove Today Task !");
+    if(isConfirm){
+
+      axios.post('http://localhost:8080/api/delete-task', { id })
+        .then(response => {
+          toast.success('Task Remove ', { position: 'top-right' });
+         
+          fetchTasks(date)
+        })
+        .catch(error => console.error('There was an error!', error));
+    }
   };
 
 

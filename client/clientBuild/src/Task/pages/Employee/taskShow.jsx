@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 function TaskView() {
   const [taskData, setTaskData] = useState([]);
   const handleDeleteTask = (id) => {
-    axios.post('https://sf.doaguru.com/api/delete-task', { id })
+    axios.post('http://localhost:8080/api/delete-task', { id })
       .then(response => {
         toast.success('Task deleted successfully',{position: 'top-right'});
 
@@ -21,7 +21,7 @@ function TaskView() {
     let user = localStorage.getItem('user');
     user = JSON.parse(user);
     // console.log(user);
-    axios.get(`https://sf.doaguru.com/api/mytask/${user.id}`)
+    axios.get(`http://localhost:8080/api/mytask/${user.id}`)
       .then(res => {
         // console.log(res.data)
         setTaskData(res.data);

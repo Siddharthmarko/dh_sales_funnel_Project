@@ -9,7 +9,7 @@ function ProjectsPage() {
 console.log(subcategories);
   useEffect(() => {
     // Fetch projects
-    axios.get('https://sf.doaguru.com/api/projects')
+    axios.get('http://localhost:8080/api/projects')
       .then(response => {
         setProjects(response.data);
       })
@@ -18,7 +18,7 @@ console.log(subcategories);
       });
 
     // Fetch categories
-    axios.get('https://sf.doaguru.com/api/category-list')
+    axios.get('http://localhost:8080/api/category-list')
       .then(response => {
         setCategories(response.data);
         setSubcategories([]);
@@ -32,7 +32,7 @@ console.log(subcategories);
   }, []);
 
   const gettingSubCategory = (selectedCategory) => {
-    axios.get(`https://sf.doaguru.com/api/sub-category-list?category_id=${selectedCategory}`)
+    axios.get(`http://localhost:8080/api/sub-category-list?category_id=${selectedCategory}`)
       .then(response => {
         setSubcategories(prevSubcategories => [
           ...prevSubcategories,

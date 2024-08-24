@@ -5,7 +5,7 @@ const PaginationControls = ({ currentPage, totalPages, onNextPage, onPreviousPag
     <button
       onClick={onPreviousPage}
       disabled={currentPage === 1}
-      className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white disabled:opacity-50 disabled:cursor-not-allowed bg-gray-200 px-2 rounded"
+      className="text-gray-700 dark:hover:text-white dark:text-gray-700 hover:bg-gray-600 dark:hover:bg-gray-600 hover:text-white dark:hover:text-white disabled:opacity-50 disabled:cursor-not-allowed bg-gray-200 px-2 rounded"
     >
       <FaChevronLeft size={20} />
     </button>
@@ -17,7 +17,7 @@ const PaginationControls = ({ currentPage, totalPages, onNextPage, onPreviousPag
     <button
       onClick={onNextPage}
       disabled={currentPage === totalPages}
-      className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white disabled:opacity-50 disabled:cursor-not-allowed bg-gray-200 px-2 rounded"
+      className="text-gray-700 dark:hover:text-white dark:text-gray-700 hover:bg-gray-600 dark:hover:bg-gray-600 hover:text-white dark:hover:text-white disabled:opacity-50 disabled:cursor-not-allowed bg-gray-200 px-2 rounded"
     >
       <FaChevronRight size={20} />
     </button>

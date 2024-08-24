@@ -4,8 +4,8 @@ import NotFoundImage from '../assets/images/not-found-cartoon.png'; // Add a car
 
 export default function NotFoundPage() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <img src={NotFoundImage} alt="Page Not Found" className="w-64 h-64 mb-8" />
+    <div className="flex flex-col items-center justify-center h-screen bg-white">
+      <img src={NotFoundImage} alt="Page Not Found" className=" mb-8" />
       <h1 className="text-5xl font-bold text-gray-800">Oops!</h1>
       <p className="text-gray-600 mt-4 text-center">
         The page you're looking for isn't here.

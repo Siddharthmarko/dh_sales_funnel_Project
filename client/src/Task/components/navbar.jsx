@@ -7,8 +7,8 @@ import { Link, useLocation } from "react-router-dom";
 const navigation = [
   { name: "Dashboard", href: "/task/UserHome" },
   { name: "Task View", href: "/task/TaskView" },
-  { name: "Assign Projects", href: "/task/Page-Not-Found" },
-  { name: "Report", href: "/task/Page-Not-Found" },
+  { name: "Assign Projects", href: "/task/AssignProjectDetails" },
+  { name: "Report", href: "/task/EmployeeTaskReport" },
 ];
 
 function classNames(...classes) {
@@ -17,14 +17,14 @@ function classNames(...classes) {
 
 export default function Navbar({ Logout, render }) {
   const [user, setUser] = useState(localStorage.getItem("user"));
-  const [userName, setUserName] = useState("default name");
+  const [userName, setUserName] = useState("User name");
   const location = useLocation();
 
   useEffect(() => {
     setUser(localStorage.getItem("user"));
     let obj = localStorage.getItem("user");
     obj = JSON.parse(obj);
-    setUserName(obj?.full_name || "default name");
+    setUserName(obj?.full_name || "User name");
   }, [render]);
 
   return (
@@ -105,7 +105,7 @@ export default function Navbar({ Logout, render }) {
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          src="https://www.redwolf.in/image/cache/catalog/stickers/tom-face-sticker-india-600x800.jpg?m=1687858270"
                           alt=""
                         />
                       </Menu.Button>
@@ -132,19 +132,7 @@ export default function Navbar({ Logout, render }) {
                             </Link>
                           )}
                         </Menu.Item>
-                        <Menu.Item>
-                          {({ focus }) => (
-                            <Link
-                              to="#"
-                              className={classNames(
-                                focus ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
-                              )}
-                            >
-                              Settings
-                            </Link>
-                          )}
-                        </Menu.Item>
+                 
                         <Menu.Item>
                           {({ focus }) => (
                             <button

@@ -8,7 +8,7 @@ const TaskReportDownload = () => {
 
   useEffect(() => {
     // Fetch users for the dropdown
-    axios.get('https://sf.doaguru.com/api/users') //  you have an endpoint to fetch users
+    axios.get('http://localhost:8080/api/users') //  you have an endpoint to fetch users
       .then(response => {
         setUsers(response.data);
         console.log(response.data)
@@ -23,7 +23,7 @@ const TaskReportDownload = () => {
       console.log(selectedUserId) 
       // console.log('line numebr 24');
       // Fetch tasks for the selected user
-      axios.get(`https://sf.doaguru.com/api/getUserTasks/${selectedUserId}`)
+      axios.get(`http://localhost:8080/api/getUserTasks/${selectedUserId}`)
         .then(response => {
           setTasks(response.data);
           console.log(response.data)
@@ -39,7 +39,7 @@ const TaskReportDownload = () => {
   };
 
   const handleDownload = () => {
-    window.location.href = `https://sf.doaguru.com/api/downloadUserTasks/${selectedUserId}`;
+    window.location.href = `http://localhost:8080/api/downloadUserTasks/${selectedUserId}`;
   };
 
   return (

@@ -63,7 +63,8 @@ const AddData = () => {
   }, []);
 
     return (
-        <div className="max-w-lg mx-auto p-4">
+        <div className="max-w-lg mx-auto p-4 ">
+            <div>
             <h2 className="text-2xl font-bold mb-4">Add Project</h2>
             <input
                 className="w-full p-2 mb-4 border border-gray-300 rounded"
@@ -73,12 +74,13 @@ const AddData = () => {
                 placeholder="Project Name"
             />
             <button
-                className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+                className="w-full border-3 border-gray-900 text-gray-900 py-2 rounded font-bold hover:text-gray-50 hover:bg-gray-900"
                 onClick={handleAddProject}
             >
                 Add Project
             </button>
-
+            </div>
+            <div>
             <h2 className="text-2xl font-bold mt-8 mb-4">Add Category</h2>
             <input
                 className="w-full p-2 mb-4 border border-gray-300 rounded"
@@ -88,11 +90,13 @@ const AddData = () => {
                 placeholder="Category Name"
             />
             <button
-                className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"
+                className="w-full border-3 border-gray-900 text-gray-900 py-2 rounded font-bold hover:text-gray-50 hover:bg-gray-900"
                 onClick={handleAddCategory}
             >
                 Add Category
             </button>
+            </div>
+            <div>
 
             <h2 className="text-2xl font-bold mt-8 mb-4">Add Subcategory</h2>
             <input
@@ -115,11 +119,12 @@ const AddData = () => {
                 ))}
             </select>
             <button
-                className="w-full bg-purple-500 text-white py-2 rounded hover:bg-purple-600"
+                className="w-full border-3 border-gray-900 text-gray-900 py-2 rounded font-bold hover:text-gray-50 hover:bg-gray-900"
                 onClick={handleAddSubCategory}
             >
                 Add Subcategory
             </button>
+            </div>
         </div>
     );
 };

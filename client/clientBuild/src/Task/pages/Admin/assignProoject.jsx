@@ -11,7 +11,7 @@ const ProjectAssignmentForm = () => {
 
   useEffect(() => {
     // Fetch users
-    axios.get('https://sf.doaguru.com/api/users')
+    axios.get('http://localhost:8080/api/users')
       .then(response => {
         setUsers(response.data);
       })
@@ -20,7 +20,7 @@ const ProjectAssignmentForm = () => {
       });
 
     // Fetch projects
-    axios.get('https://sf.doaguru.com/api/projects')
+    axios.get('http://localhost:8080/api/projects')
       .then(response => {
         setProjects(response.data);
       })
@@ -29,7 +29,7 @@ const ProjectAssignmentForm = () => {
       });
 
     // Fetch categories
-    axios.get('https://sf.doaguru.com/api/category-list')
+    axios.get('http://localhost:8080/api/category-list')
       .then(response => {
         setCategories(response.data);
       })
@@ -40,7 +40,7 @@ const ProjectAssignmentForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://sf.doaguru.com/api/assignProject', {
+    axios.post('http://localhost:8080/api/assignProject', {
       userId: selectedUser,
       projectId: selectedProject,
       categoryId: selectedCategory

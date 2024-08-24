@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { PiMicrosoftExcelLogoFill } from "react-icons/pi";
 
 const TaskReportDownload = () => {
   const [users, setUsers] = useState([]);
@@ -91,7 +92,8 @@ const TaskReportDownload = () => {
       </div>
       <div className='flex justify-end mt-5'>
 
-      <button className='border-2 rounded-lg border-green-500 px-2 hover:bg-green-100  ' onClick={handleDownload} disabled={!selectedUserId}>
+      <button className='flex items-center gap-1 border-2 rounded-md border-green-500 p-1 hover:bg-green-700 text-gray-600 font-bold hover:text-white' onClick={handleDownload} disabled={!selectedUserId}>
+      <PiMicrosoftExcelLogoFill />
         Download Tasks as Excel
       </button>
       </div>
